@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SettingsHubDemo</string>
+    <string name="settings_name_simple">Simple settings</string>
+    <string name="settings_category_simple">Simple category</string>
+    <string name="settings_name_tabbed">Tab</string>
+    <string name="settings_category_tab">Category in tab</string>
+    <string name="settings_item_simple">Simple item</string>
+</resources>
