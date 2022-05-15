@@ -3,9 +3,10 @@ package xyz.glorin.settingshubdemo.settings.model
 import android.os.Parcel
 import android.os.Parcelable
 
-open class SettingsItem(key: String, name: Int) : BaseSettingsModel(key, name), Parcelable {
+open class SettingsItem(key: String, name: Int, val icon: Int) : BaseSettingsModel(key, name), Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
+        parcel.readInt(),
         parcel.readInt()
     ) {
     }
@@ -13,6 +14,7 @@ open class SettingsItem(key: String, name: Int) : BaseSettingsModel(key, name), 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(key)
         parcel.writeInt(name)
+        parcel.writeInt(icon)
     }
 
     override fun describeContents(): Int {

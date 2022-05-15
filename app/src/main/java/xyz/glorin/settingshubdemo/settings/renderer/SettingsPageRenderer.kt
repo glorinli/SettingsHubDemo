@@ -1,13 +1,20 @@
 package xyz.glorin.settingshubdemo.settings.renderer
 
 import android.content.Context
+import android.util.SparseArray
+import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceGroup
 import androidx.preference.PreferenceManager
 import androidx.preference.PreferenceScreen
+import androidx.viewpager.widget.ViewPager
+import xyz.glorin.settingshubdemo.R
 import xyz.glorin.settingshubdemo.settings.model.SettingsCategory
 import xyz.glorin.settingshubdemo.settings.model.SettingsItem
 import xyz.glorin.settingshubdemo.settings.model.SettingsPage
@@ -27,6 +34,31 @@ object SettingsPageRenderer {
                 .commitAllowingStateLoss()
         } else {
             // Create ViewPager
+            LayoutInflater.from(context).inflate(R.layout.settings_tab_layout, container)
+
+            val viewPager = container.findViewById<ViewPager>(R.id.viewPager)
+            viewPager.adapter = object : FragmentPagerAdapter(
+                fragmentManager,
+                FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
+            ) {
+                private val fragments = SparseArray<Fragment>()
+
+                override fun getCount(): Int {
+                    return page.settingsTabs.size
+                }
+
+                override fun getItem(position: Int): Fragment {
+                    return fragments[position]
+                        ?: SettingsFragment.create(page.settingsTabs[position].settingsItems).also {
+                            fragments[position] = it
+                        }
+                }
+
+                override fun getPageTitle(position: Int): CharSequence {
+                    return context.getString(page.settingsTabs[position].name)
+                }
+
+            }
         }
     }
 
@@ -60,6 +92,10 @@ object SettingsPageRenderer {
     ) {
         addPreference(Preference(context).apply {
             title = context.getString(item.name)
+
+            if (item.icon != 0) {
+                icon = ContextCompat.getDrawable(context, item.icon)
+            }
         })
     }
 }

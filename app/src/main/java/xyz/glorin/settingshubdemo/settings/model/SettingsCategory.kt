@@ -4,13 +4,14 @@ import android.os.Parcel
 import android.os.Parcelable
 import java.lang.IllegalArgumentException
 
-class SettingsCategory(key: String, name: Int) : SettingsItem(key, name), Parcelable {
+class SettingsCategory(key: String, name: Int, icon: Int) : SettingsItem(key, name, icon), Parcelable {
     private val items: MutableList<SettingsItem> = mutableListOf()
 
     val settingsItems = items
 
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
+        parcel.readInt(),
         parcel.readInt()
     ) {
         parcel.readArray(SettingsItem::class.java.classLoader)?.forEach {

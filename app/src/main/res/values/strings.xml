@@ -5,4 +5,7 @@
     <string name="settings_name_tabbed">Tab</string>
     <string name="settings_category_tab">Category in tab</string>
     <string name="settings_item_simple">Simple item</string>
+    <string name="settings_tabbed_tab1">Tab 1</string>
+    <string name="settings_tabbed_tab2">Tab2</string>
+    <string name="settings_category_tab2">Tab category 2</string>
 </resources>
