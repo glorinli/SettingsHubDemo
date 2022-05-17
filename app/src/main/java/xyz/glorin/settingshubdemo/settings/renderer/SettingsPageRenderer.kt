@@ -99,16 +99,12 @@ object SettingsPageRenderer {
         preferenceClickListener: Preference.OnPreferenceClickListener,
         preferenceChangeListener: Preference.OnPreferenceChangeListener
     ) {
-        addPreference(Preference(context).apply {
-            key = item.key
-            title = context.getString(item.name)
-
-            if (item.icon != 0) {
-                icon = ContextCompat.getDrawable(context, item.icon)
-            }
-
-            onPreferenceClickListener = preferenceClickListener
-            onPreferenceChangeListener = preferenceChangeListener
-        })
+        addPreference(
+            item.renderAsPreference(
+                context,
+                preferenceClickListener,
+                preferenceChangeListener
+            )
+        )
     }
 }
