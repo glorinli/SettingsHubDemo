@@ -30,7 +30,7 @@ object SettingsPageRenderer {
         if (page.settingsTabs.isEmpty()) {
             // Create fragment directly
             fragmentManager.beginTransaction()
-                .add(container.id, SettingsFragment.create(page.settingsItems))
+                .add(container.id, SettingsFragment.create(page.key, null))
                 .commitAllowingStateLoss()
         } else {
             // Create ViewPager
@@ -49,7 +49,7 @@ object SettingsPageRenderer {
 
                 override fun getItem(position: Int): Fragment {
                     return fragments[position]
-                        ?: SettingsFragment.create(page.settingsTabs[position].settingsItems).also {
+                        ?: SettingsFragment.create(page.key, page.settingsTabs[position].key).also {
                             fragments[position] = it
                         }
                 }
