@@ -39,7 +39,7 @@ object SettingsPageRenderer {
             val viewPager = container.findViewById<ViewPager>(R.id.viewPager)
             viewPager.adapter = object : FragmentPagerAdapter(
                 fragmentManager,
-                FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
+                BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
             ) {
                 private val fragments = SparseArray<Fragment>()
 
@@ -65,7 +65,9 @@ object SettingsPageRenderer {
     fun createPreferenceScreen(
         context: Context,
         preferenceManager: PreferenceManager,
-        items: List<SettingsItem>
+        items: List<SettingsItem>,
+        preferenceClickListener: Preference.OnPreferenceClickListener,
+        preferenceChangeListener: Preference.OnPreferenceChangeListener
     ): PreferenceScreen {
         return preferenceManager.createPreferenceScreen(context).apply {
             items.forEach {
@@ -77,10 +79,15 @@ object SettingsPageRenderer {
                     addPreference(preferenceCategory)
 
                     it.settingsItems.forEach { item ->
-                        preferenceCategory.addSettingsItem(context, item)
+                        preferenceCategory.addSettingsItem(
+                            context,
+                            item,
+                            preferenceClickListener,
+                            preferenceChangeListener
+                        )
                     }
                 } else {
-                    addSettingsItem(context, it)
+                    addSettingsItem(context, it, preferenceClickListener, preferenceChangeListener)
                 }
             }
         }
@@ -88,14 +95,20 @@ object SettingsPageRenderer {
 
     private fun PreferenceGroup.addSettingsItem(
         context: Context,
-        item: SettingsItem
+        item: SettingsItem,
+        preferenceClickListener: Preference.OnPreferenceClickListener,
+        preferenceChangeListener: Preference.OnPreferenceChangeListener
     ) {
         addPreference(Preference(context).apply {
+            key = item.key
             title = context.getString(item.name)
 
             if (item.icon != 0) {
                 icon = ContextCompat.getDrawable(context, item.icon)
             }
+
+            onPreferenceClickListener = preferenceClickListener
+            onPreferenceChangeListener = preferenceChangeListener
         })
     }
 }

@@ -4,12 +4,16 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.preference.Preference
 import xyz.glorin.settingshubdemo.R
 import xyz.glorin.settingshubdemo.settings.SettingsManager
+import xyz.glorin.settingshubdemo.settings.model.SettingsPage
 import xyz.glorin.settingshubdemo.settings.renderer.SettingsPageRenderer
 import java.lang.IllegalArgumentException
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity(), SettingsFragment.Host {
+    private lateinit var settingsPage: SettingsPage
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -21,10 +25,10 @@ class SettingsActivity : AppCompatActivity() {
             throw IllegalArgumentException("Please specify a key")
         }
 
-        val page = SettingsManager.getPageByKey(key)
+        settingsPage = SettingsManager.getPageByKey(key)
         SettingsPageRenderer.render(
             this,
-            page,
+            settingsPage,
             findViewById(R.id.settingsContainer),
             supportFragmentManager
         )
@@ -38,5 +42,13 @@ class SettingsActivity : AppCompatActivity() {
                 putExtra(EXTRA_KEY, key)
             })
         }
+    }
+
+    override fun getPreferenceClickListener(): Preference.OnPreferenceClickListener {
+        return settingsPage.delegate
+    }
+
+    override fun getPreferenceChangeListener(): Preference.OnPreferenceChangeListener {
+        return settingsPage.delegate
     }
 }

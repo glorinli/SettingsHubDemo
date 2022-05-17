@@ -1,8 +1,9 @@
 package xyz.glorin.settingshubdemo.settings.model
 
+import xyz.glorin.settingshubdemo.settings.delegate.BaseSettingsPageDelegate
 import java.lang.IllegalArgumentException
 
-class SettingsPage(key: String, name: Int) : BaseSettingsModel(key, name) {
+open class SettingsPage(key: String, name: Int, val delegate: BaseSettingsPageDelegate) : BaseSettingsModel(key, name) {
     private val tabs: ArrayList<SettingsTab> = ArrayList()
     private val items: ArrayList<SettingsItem> = ArrayList()
 

@@ -1,9 +1,8 @@
 package xyz.glorin.settingshubdemo.settings.ui
 
 import android.os.Bundle
-import androidx.preference.PreferenceCategory
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import xyz.glorin.settingshubdemo.settings.model.SettingsCategory
 import xyz.glorin.settingshubdemo.settings.model.SettingsItem
 import xyz.glorin.settingshubdemo.settings.renderer.SettingsPageRenderer
 
@@ -15,7 +14,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
             settingsItems.add(it)
         }
 
-        preferenceScreen = SettingsPageRenderer.createPreferenceScreen(requireContext(), preferenceManager, settingsItems)
+        val host = requireActivity() as? Host
+            ?: throw IllegalStateException("Should put this fragment in a Host")
+
+        preferenceScreen = SettingsPageRenderer.createPreferenceScreen(
+            requireContext(),
+            preferenceManager,
+            settingsItems,
+            host.getPreferenceClickListener(),
+            host.getPreferenceChangeListener()
+        )
     }
 
     companion object {
@@ -26,5 +34,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 arguments = Bundle().apply { putParcelableArrayList(EXTRA_ITEMS, items) }
             }
         }
+    }
+
+    interface Host {
+        fun getPreferenceClickListener(): Preference.OnPreferenceClickListener
+        fun getPreferenceChangeListener(): Preference.OnPreferenceChangeListener
     }
 }
