@@ -8,11 +8,11 @@ object SettingsManager {
     private val pageMap: ConcurrentHashMap<String, SettingsPage> = ConcurrentHashMap()
 
     fun registerSettingsPage(page: SettingsPage) {
-        if (pageMap.containsKey(page.key)) {
-            throw IllegalArgumentException("Key ${page.key} already registered!")
+        if (pageMap.containsKey(page.settingsKey)) {
+            throw IllegalArgumentException("Key ${page.settingsKey} already registered!")
         }
 
-        pageMap[page.key] = page
+        pageMap[page.settingsKey] = page
     }
 
     fun getPageByKey(key: String): SettingsPage {

@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -30,7 +29,7 @@ object SettingsPageRenderer {
         if (page.settingsTabs.isEmpty()) {
             // Create fragment directly
             fragmentManager.beginTransaction()
-                .add(container.id, SettingsFragment.create(page.key, null))
+                .add(container.id, SettingsFragment.create(page.settingsKey, null))
                 .commitAllowingStateLoss()
         } else {
             // Create ViewPager
@@ -49,13 +48,13 @@ object SettingsPageRenderer {
 
                 override fun getItem(position: Int): Fragment {
                     return fragments[position]
-                        ?: SettingsFragment.create(page.key, page.settingsTabs[position].key).also {
+                        ?: SettingsFragment.create(page.settingsKey, page.settingsTabs[position].settingsKey).also {
                             fragments[position] = it
                         }
                 }
 
                 override fun getPageTitle(position: Int): CharSequence {
-                    return context.getString(page.settingsTabs[position].name)
+                    return context.getString(page.settingsTabs[position].settingsName)
                 }
 
             }
@@ -73,7 +72,7 @@ object SettingsPageRenderer {
             items.forEach {
                 if (it is SettingsCategory) {
                     val preferenceCategory = PreferenceCategory(context).apply {
-                        title = context.getString(it.name)
+                        title = context.getString(it.settingsName)
                     }
 
                     addPreference(preferenceCategory)

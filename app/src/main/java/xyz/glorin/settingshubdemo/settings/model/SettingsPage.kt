@@ -11,13 +11,13 @@ open class SettingsPage(key: String, name: Int, val delegate: BaseSettingsPageDe
     val settingsTabs = tabs
 
     fun addTab(tab: SettingsTab) {
-        if (tabs.find { it.key == tab.key } != null) throw IllegalArgumentException("Key ${tab.key} already taken")
+        if (tabs.find { it.settingsKey == tab.settingsKey } != null) throw IllegalArgumentException("Key ${tab.settingsKey} already taken")
 
         tabs.add(tab)
     }
 
     fun addItem(item: SettingsItem) {
-        if (items.find { it.key == item.key } != null) throw IllegalArgumentException("Key ${item.key} already taken")
+        if (items.find { it.settingsKey == item.settingsKey } != null) throw IllegalArgumentException("Key ${item.settingsKey} already taken")
 
         items.add(item)
     }

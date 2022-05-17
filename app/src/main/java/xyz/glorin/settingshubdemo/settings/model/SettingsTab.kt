@@ -8,7 +8,7 @@ class SettingsTab(key: String, name: Int) : BaseSettingsModel(key, name) {
     val settingsItems = items
 
     fun addItem(item: SettingsItem) {
-        if (items.find { it.key == item.key } != null) throw IllegalArgumentException("Key ${item.key} already taken")
+        if (items.find { it.settingsKey == item.settingsKey } != null) throw IllegalArgumentException("Key ${item.settingsKey} already taken")
 
         items.add(item)
     }

@@ -24,7 +24,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         if (tabKey.isNullOrEmpty()) {
             settingsItems = page.settingsItems
         } else {
-            settingsItems = page.settingsTabs.find { it.key == tabKey }?.settingsItems ?: listOf()
+            settingsItems = page.settingsTabs.find { it.settingsKey == tabKey }?.settingsItems ?: listOf()
         }
 
         val host = requireActivity() as? Host

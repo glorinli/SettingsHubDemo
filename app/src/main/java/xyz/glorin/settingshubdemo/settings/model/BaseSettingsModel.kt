@@ -2,7 +2,7 @@ package xyz.glorin.settingshubdemo.settings.model
 
 import androidx.annotation.StringRes
 
-open class BaseSettingsModel(val key: String, @StringRes val name: Int) {
+open class BaseSettingsModel(val settingsKey: String, @StringRes val settingsName: Int) {
     /**
      * Chain of keys
      */
